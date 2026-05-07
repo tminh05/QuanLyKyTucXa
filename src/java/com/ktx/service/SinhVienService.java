@@ -205,4 +205,8 @@ public class SinhVienService {
         }
         return stats;
     }
+
+    public Object getSinhVienByMssv(String mssv) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
