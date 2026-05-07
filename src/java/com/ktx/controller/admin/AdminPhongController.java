@@ -23,7 +23,14 @@ public class AdminPhongController {
         model.addAttribute("phong", new Phong());
         return "admin/phong/form";
     }
-
+    
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable int id, Model model) {
+        // Lấy thông tin phòng từ database dựa trên ID và đẩy sang trang edit.jsp
+        model.addAttribute("phong", phongService.getPhongById(id));
+        return "admin/phong/edit";
+    }
+    
     @PostMapping("/save")
     public String save(@ModelAttribute("phong") Phong p) {
         if (p.getIdPhong() > 0) phongService.updatePhong(p);
