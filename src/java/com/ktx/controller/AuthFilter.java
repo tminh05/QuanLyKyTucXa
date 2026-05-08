@@ -24,6 +24,13 @@ public class AuthFilter implements Filter {
         String uri = request.getRequestURI();
         String ctx = request.getContextPath();
 
+        // ===== QUAN TRỌNG: BỎ QUA CÁC URL CỦA ADMIN =====
+        if (uri.startsWith(ctx + "/admin")) {
+            chain.doFilter(req, res);
+            return;
+        }
+
+        // Các URL công khai (không cần đăng nhập)
         boolean isPublic = uri.equals(ctx + "/login")
                 || uri.equals(ctx + "/register")
                 || uri.equals(ctx + "/")

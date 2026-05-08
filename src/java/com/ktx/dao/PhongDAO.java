@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class PhongDAO {
@@ -183,5 +185,16 @@ public class PhongDAO {
             tb.setTinhTrang(rs.getString("TinhTrang"));
             return tb;
         }, phongId);
+    }
+
+    public Map<String, Integer> countByBuilding() {
+    String sql = "SELECT tn.TenToaNha, COUNT(p.ID_Phong) as SoLuong FROM PHONG p " +
+                "JOIN TOA_NHA tn ON p.ID_ToaNha = tn.ID_ToaNha " +
+                "GROUP BY tn.TenToaNha";
+    Map<String, Integer> result = new HashMap<>();
+    jdbcTemplate.query(sql, (rs) -> {
+        result.put(rs.getString("TenToaNha"), rs.getInt("SoLuong"));
+    });
+    return result;
     }
 }

@@ -146,6 +146,7 @@ public class HopDongDAO {
         return jdbcTemplate.query(sql, hopDongRowMapper);
     }
     
+    
     // Lấy danh sách hóa đơn của hợp đồng
     public List<HoaDon> getInvoices(int hopDongId) {
         String sql = "SELECT hd.* FROM HOA_DON hd " +
@@ -161,5 +162,20 @@ public class HopDongDAO {
             hoaDon.setTrangThai(rs.getString("TrangThai"));
             return hoaDon;
         }, hopDongId);
+    }
+    
+    
+
+    public List<HopDong> getByStatus(String status) {
+    String sql = "SELECT hd.*, sv.HoTen, p.TenPhong FROM HOP_DONG hd " +
+                "JOIN SINH_VIEN sv ON hd.MSSV = sv.MSSV " +
+                "JOIN PHONG p ON hd.ID_Phong = p.ID_Phong " +
+                "WHERE hd.TrangThai = ? ORDER BY hd.NgayBatDau DESC";
+    return jdbcTemplate.query(sql, hopDongRowMapper, status);
+}
+
+    public int getCountByMonth(int month, int year) {
+        String sql = "SELECT COUNT(*) FROM HOP_DONG WHERE MONTH(NgayBatDau) = ? AND YEAR(NgayBatDau) = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, month, year);
     }
 }

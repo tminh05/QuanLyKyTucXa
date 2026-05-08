@@ -104,4 +104,30 @@ public class SachDAO {
         return jdbcTemplate.queryForList(
             "SELECT DISTINCT TheLoai FROM SACH ORDER BY TheLoai", String.class);
     }
+
+    public int add(Sach s) {
+    String sql = "INSERT INTO SACH (TenSach, TacGia, TheLoai, MoTa, SoLuong, SoLuongConLai, NamXuatBan, TrangThai) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    return jdbcTemplate.update(sql, s.getTenSach(), s.getTacGia(), s.getTheLoai(),
+                               s.getMoTa(), s.getSoLuong(), s.getSoLuongConLai(),
+                               s.getNamXuatBan(), s.getTrangThai());
+    }
+
+    public int update(Sach s) {
+    String sql = "UPDATE SACH SET TenSach=?, TacGia=?, TheLoai=?, MoTa=?, SoLuong=?, SoLuongConLai=?, NamXuatBan=?, TrangThai=? "
+               + "WHERE ID_Sach=?";
+    return jdbcTemplate.update(sql, s.getTenSach(), s.getTacGia(), s.getTheLoai(),
+                               s.getMoTa(), s.getSoLuong(), s.getSoLuongConLai(),
+                               s.getNamXuatBan(), s.getTrangThai(), s.getIdSach());
+    }   
+
+    public int delete(int id) {
+        String sql = "DELETE FROM SACH WHERE ID_Sach = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
+    public List<MuonSach> getAllMuonSach() {
+    String sql = "SELECT ms.*, s.TenSach FROM MUON_SACH ms JOIN SACH s ON ms.ID_Sach = s.ID_Sach ORDER BY ms.NgayMuon DESC";
+    return jdbcTemplate.query(sql, muonMapper);
+    }
 }

@@ -48,4 +48,14 @@ public class YeuCauHoTroDAO {
         String sql = "SELECT * FROM YEU_CAU_HO_TRO ORDER BY NgayNop DESC";
         return jdbcTemplate.query(sql, rowMapper);
     }
+
+    public List<YeuCauHoTro> getByStatus(String status) {
+    String sql = "SELECT * FROM YEU_CAU_HO_TRO WHERE TrangThai = ? ORDER BY NgayNop DESC";
+    return jdbcTemplate.query(sql, rowMapper, status);
+    }
+
+    public int updateStatus(int id, String status) {
+    String sql = "UPDATE YEU_CAU_HO_TRO SET TrangThai = ? WHERE ID_YeuCau = ?";
+    return jdbcTemplate.update(sql, status, id);
+    }
 }

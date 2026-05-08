@@ -33,6 +33,26 @@ public class BaiVietDAO {
         jdbcTemplate.update(sql, id);
     }
 
+    public int add(BaiViet bv) {
+    String sql = "INSERT INTO BAI_VIET (TieuDe, TomTat, NoiDung, AnhDaiDien, LoaiBaiViet, NgayDang, LuotXem) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    return jdbcTemplate.update(sql, bv.getTieuDe(), bv.getTomTat(), bv.getNoiDung(),
+                               bv.getAnhDaiDien(), bv.getLoaiBaiViet(),
+                               java.sql.Date.valueOf(bv.getNgayDang()), bv.getLuotXem());
+    }
+
+    public int update(BaiViet bv) {
+    String sql = "UPDATE BAI_VIET SET TieuDe=?, TomTat=?, NoiDung=?, AnhDaiDien=?, LoaiBaiViet=?, NgayCapNhat=GETDATE() "
+               + "WHERE ID_BaiViet=?";
+    return jdbcTemplate.update(sql, bv.getTieuDe(), bv.getTomTat(), bv.getNoiDung(),
+                               bv.getAnhDaiDien(), bv.getLoaiBaiViet(), bv.getIdBaiViet());
+    }
+
+    public int delete(int id) {
+    String sql = "DELETE FROM BAI_VIET WHERE ID_BaiViet = ?";
+    return jdbcTemplate.update(sql, id);
+    }
+
     private static class BaiVietRowMapper implements RowMapper<BaiViet> {
         @Override
         public BaiViet mapRow(ResultSet rs, int rowNum) throws SQLException {
