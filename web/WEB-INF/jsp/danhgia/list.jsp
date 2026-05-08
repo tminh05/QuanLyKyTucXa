@@ -115,7 +115,7 @@
         <div class="nav-inner">
             <a href="${pageContext.request.contextPath}/home">Trang chủ</a>
             <a href="${pageContext.request.contextPath}/sinhvien/list">Sinh viên</a>
-            <a href="${pageContext.request.contextPath}/phong/list">Phòng</a>
+            <a href="${pageContext.request.contextPath}/phong/phong-cua-toi">Phòng</a>
             <a href="${pageContext.request.contextPath}/hopdong/list">Hợp đồng</a>
             <a href="${pageContext.request.contextPath}/baotri/list">Bảo trì</a>
             <a href="${pageContext.request.contextPath}/danhgia/list" class="active">Đánh giá</a>

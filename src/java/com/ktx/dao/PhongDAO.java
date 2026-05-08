@@ -134,6 +134,16 @@ public class PhongDAO {
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
     
+    // Lấy ID phòng hiện tại của sinh viên (từ hợp đồng đang hiệu lực)
+    public int getCurrentRoom(String mssv) {
+    String sql = "SELECT TOP 1 ID_Phong FROM HOP_DONG WHERE MSSV = ? AND TrangThai = N'Hiệu lực'";
+    try {
+        return jdbcTemplate.queryForObject(sql, Integer.class, mssv);
+    } catch (Exception e) {
+        return 0;
+    }
+    }
+    
     // Kiểm tra phòng còn chỗ không
     public boolean hasAvailableSlot(int phongId) {
         String sql = "SELECT SoNguoiHienTai, SucChua FROM PHONG WHERE ID_Phong = ?";
@@ -197,4 +207,5 @@ public class PhongDAO {
     });
     return result;
     }
+
 }
