@@ -119,6 +119,7 @@
             <a href="${pageContext.request.contextPath}/hopdong/list">Hợp đồng</a>
             <a href="${pageContext.request.contextPath}/baotri/list">Bảo trì</a>
             <a href="${pageContext.request.contextPath}/danhgia/list" class="active">Đánh giá</a>
+            <a href="${pageContext.request.contextPath}/thuvien/list">Thư viện</a>
         </div>
     </nav>
 
