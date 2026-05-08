@@ -188,8 +188,8 @@ public class BaoTriController {
         return "redirect:/baotri/list";
     }
     // Sửa nội dung yêu cầu bảo trì (dành cho sinh viên)
-@PostMapping("/edit-content")
-public String editContent(@RequestParam int id,
+    @PostMapping("/edit-content")
+    public String editContent(@RequestParam int id,
                           @RequestParam String noiDung,
                           HttpSession session,
                           RedirectAttributes ra) {
@@ -214,6 +214,6 @@ public String editContent(@RequestParam int id,
     
     ra.addFlashAttribute("success", "Đã cập nhật nội dung yêu cầu!");
     return "redirect:/baotri/list";
-}
+    }
     
 }

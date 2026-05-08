@@ -87,12 +87,87 @@
                       font-size: 12px; font-weight: 600; display: inline-block; }
         .btn-edit:hover { background: #FFB300; }
         .btn-delete:hover { background: #c62828; }
+        .btn-edit-content { background: #2196F3; color: white; padding: 6px 14px; border-radius: 6px; 
+                            text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block; 
+                            margin-right: 8px; border: none; cursor: pointer; }
+        .btn-edit-content:hover { background: #1976D2; }
 
         .empty-row td { text-align: center; padding: 50px; color: #999; }
 
         .footer { background: #1565C0; color: rgba(255,255,255,0.85); text-align: center; padding: 20px;
                   font-size: 13px; margin-top: 40px; }
         .footer strong { color: white; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: white;
+            border-radius: 16px;
+            width: 500px;
+            max-width: 90%;
+            overflow: hidden;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-title {
+            background: #1565C0;
+            color: white;
+            padding: 16px 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .modal-body { padding: 24px; }
+        .modal-body textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+        }
+        .modal-body textarea:focus { outline: none; border-color: #1565C0; }
+        .modal-btns {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .btn-save {
+            flex: 1;
+            background: #1565C0;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: #0D47A1; }
+        .btn-close-modal {
+            flex: 1;
+            background: #f0f4f8;
+            color: #333;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -230,8 +305,8 @@
                                         <p style="margin-top: 10px;">Chưa có yêu cầu bảo trì nào</p>
                                         <a href="${pageContext.request.contextPath}/baotri/add" style="color:#1565C0; margin-top: 10px; display: inline-block;">➕ Tạo yêu cầu ngay</a>
                                     </div>
-                                </td>
-                            </tr>
+                                 </td>
+                             </tr>
                         </c:when>
                         <c:otherwise>
                             <c:forEach items="${yeuCauList}" var="yc">
@@ -268,10 +343,11 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-                                    <td>
+                                    <td class="action-buttons">
                                         <c:choose>
                                             <c:when test="${isStudent}">
                                                 <c:if test="${yc.trangThai == 'Chờ xử lý'}">
+                                                    <button class="btn-edit-content" onclick="openEditModal(${yc.idYeuCau}, '${yc.noiDung.replace("'", "\\'")}')">✏️ Sửa</button>
                                                     <a href="${pageContext.request.contextPath}/baotri/cancel/${yc.idYeuCau}"
                                                        class="btn-cancel"
                                                        onclick="return confirm('Hủy yêu cầu này?')">❌ Hủy</a>
@@ -294,8 +370,44 @@
         </div>
     </div>
 
+    <!-- MODAL SỬA NỘI DUNG -->
+    <div class="modal-overlay" id="modal-edit">
+        <div class="modal-box">
+            <div class="modal-title">✏️ Sửa nội dung yêu cầu</div>
+            <div class="modal-body">
+                <form id="editForm" action="${pageContext.request.contextPath}/baotri/edit-content" method="post">
+                    <input type="hidden" name="id" id="editId">
+                    <textarea name="noiDung" id="editNoiDung" rows="5" placeholder="Nhập nội dung mới..."></textarea>
+                    <div class="modal-btns">
+                        <button type="submit" class="btn-save">💾 Lưu thay đổi</button>
+                        <button type="button" class="btn-close-modal" onclick="closeEditModal()">❌ Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         &copy; 2026 — <strong>Hệ thống Quản lý Ký túc xá</strong> — Trường Đại học Sư phạm Kỹ thuật Đà Nẵng
     </div>
+
+    <script>
+        function openEditModal(id, noiDung) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editNoiDung').value = noiDung;
+            document.getElementById('modal-edit').classList.add('show');
+        }
+        
+        function closeEditModal() {
+            document.getElementById('modal-edit').classList.remove('show');
+        }
+        
+        // Đóng modal khi click bên ngoài
+        document.getElementById('modal-edit').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+    </script>
 </body>
 </html>
