@@ -36,6 +36,14 @@ public class LoginController {
             if (valid) {
                 SinhVien sv = sinhVienDAO.getById(mssv);
                 session.setAttribute("sinhVien", sv);
+                
+                // KIỂM TRA CÓ TRANG MUỐN QUAY LẠI KHÔNG
+                String redirectUrl = (String) session.getAttribute("redirectUrl");
+                if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                    session.removeAttribute("redirectUrl");
+                    return "redirect:" + redirectUrl;
+                }
+                
                 return "redirect:/home";
             } else {
                 model.addAttribute("loginError", "MSSV hoặc mật khẩu không đúng!");

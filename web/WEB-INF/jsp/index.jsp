@@ -360,7 +360,7 @@
             <a href="${pageContext.request.contextPath}/sinhvien/profile">👤 Sinh viên</a>
             <a href="${pageContext.request.contextPath}/phong/list">🏠 Phòng</a>
             <a href="${pageContext.request.contextPath}/hopdong/hopdong-cua-toi">📄 Hợp đồng</a>
-            <a href="${pageContext.request.contextPath}/baotri/list">🛠️ Bảo trì</a>
+            <a href="${pageContext.request.contextPath}/baotri/list">🔧 Bảo trì</a>
             <a href="${pageContext.request.contextPath}/danhgia/list">⭐ Đánh giá</a>
             <a href="${pageContext.request.contextPath}/thuvien/list">📚 Thư viện</a>
         </div>

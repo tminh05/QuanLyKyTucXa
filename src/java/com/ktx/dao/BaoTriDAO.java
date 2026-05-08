@@ -123,14 +123,29 @@ public class BaoTriDAO {
     
     // Lấy yêu cầu theo sinh viên
     public List<YeuCauBaoTri> getByStudent(String mssv) {
-        String sql = "SELECT yc.*, p.TenPhong, sv.HoTen, nv.HoTen as TenNhanVien " +
-                    "FROM YEU_CAU_BAO_TRI yc " +
-                    "LEFT JOIN PHONG p ON yc.ID_Phong = p.ID_Phong " +
-                    "LEFT JOIN SINH_VIEN sv ON yc.MSSV = sv.MSSV " +
-                    "LEFT JOIN NHAN_VIEN nv ON yc.ID_NhanVien = nv.ID_NhanVien " +
-                    "WHERE yc.MSSV = ? " +
-                    "ORDER BY yc.NgayTao DESC";
-        return jdbcTemplate.query(sql, yeuCauRowMapper, mssv);
+    String sql = "SELECT yc.*, p.TenPhong, sv.HoTen, nv.HoTen as TenNhanVien " +
+                "FROM YEU_CAU_BAO_TRI yc " +
+                "LEFT JOIN PHONG p ON yc.ID_Phong = p.ID_Phong " +
+                "LEFT JOIN SINH_VIEN sv ON yc.MSSV = sv.MSSV " +
+                "LEFT JOIN NHAN_VIEN nv ON yc.ID_NhanVien = nv.ID_NhanVien " +
+                "WHERE yc.MSSV = ? " +
+                "ORDER BY yc.NgayTao DESC";
+    return jdbcTemplate.query(sql, yeuCauRowMapper, mssv);
+    }
+    
+    public int cancel(int id, String mssv) {
+    String sql = "UPDATE YEU_CAU_BAO_TRI SET TrangThai = N'Đã hủy', NgayCapNhat = GETDATE() " +
+                "WHERE ID_YeuCau = ? AND MSSV = ? AND TrangThai = N'Chờ xử lý'";
+    return jdbcTemplate.update(sql, id, mssv);
+    }
+    
+    public int getCurrentRoom(String mssv) {
+    String sql = "SELECT TOP 1 ID_Phong FROM HOP_DONG WHERE MSSV = ? AND TrangThai = N'Hiệu lực'";
+    try {
+        return jdbcTemplate.queryForObject(sql, Integer.class, mssv);
+    } catch (Exception e) {
+        return 0;
+    }
     }
     
     // Lấy yêu cầu theo nhân viên xử lý
@@ -174,6 +189,11 @@ public class BaoTriDAO {
         String sql = "UPDATE YEU_CAU_BAO_TRI SET TrangThai=?, ID_NhanVien=?, NgayCapNhat=GETDATE() " +
                     "WHERE ID_YeuCau=?";
         return jdbcTemplate.update(sql, status, nhanVienId, yeuCauId);
+    }
+    // Cập nhật nội dung yêu cầu bảo trì
+    public int updateContent(YeuCauBaoTri yc) {
+    String sql = "UPDATE YEU_CAU_BAO_TRI SET NoiDung=?, NgayCapNhat=GETDATE() WHERE ID_YeuCau=?";
+    return jdbcTemplate.update(sql, yc.getNoiDung(), yc.getIdYeuCau());
     }
     
     // Gán nhân viên xử lý yêu cầu
@@ -264,4 +284,5 @@ public class BaoTriDAO {
             return new Object[]{rs.getString("TenPhong"), rs.getInt("SoLuongYeuCau")};
         }, limit);
     }
+    
 }

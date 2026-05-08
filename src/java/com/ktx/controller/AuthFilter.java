@@ -24,7 +24,7 @@ public class AuthFilter implements Filter {
         String uri = request.getRequestURI();
         String ctx = request.getContextPath();
 
-        // ===== QUAN TRỌNG: BỎ QUA CÁC URL CỦA ADMIN =====
+        // Bỏ qua các URL của Admin
         if (uri.startsWith(ctx + "/admin")) {
             chain.doFilter(req, res);
             return;
@@ -34,6 +34,7 @@ public class AuthFilter implements Filter {
         boolean isPublic = uri.equals(ctx + "/login")
                 || uri.equals(ctx + "/register")
                 || uri.equals(ctx + "/")
+                || uri.equals(ctx + "/home")
                 || uri.startsWith(ctx + "/resources/")
                 || uri.startsWith(ctx + "/baiviet/")
                 || uri.startsWith(ctx + "/khaosat/");
@@ -43,6 +44,9 @@ public class AuthFilter implements Filter {
         if (isPublic || loggedIn) {
             chain.doFilter(req, res);
         } else {
+            // LƯU LẠI URL MUỐN TRUY CẬP
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("redirectUrl", uri);
             response.sendRedirect(ctx + "/login");
         }
     }
