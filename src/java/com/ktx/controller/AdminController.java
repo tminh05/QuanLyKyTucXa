@@ -526,9 +526,18 @@ public class AdminController {
 
     @GetMapping("/baiviet/edit/{id}")
     public String suaBaiVietForm(@PathVariable int id, Model model) {
+        System.out.println("=== EDIT BÀI VIẾT ID: " + id);
+
         BaiViet bv = baiVietDAO.getBaiVietById(id);
-        if (bv == null) return "redirect:/admin/baiviet";
+
+        if (bv == null) {
+            System.out.println("=== KHÔNG TÌM THẤY BÀI VIẾT ID: " + id);
+            return "redirect:/admin/baiviet";
+        }
+
+        System.out.println("=== TÌM THẤY: " + bv.getTieuDe());
         model.addAttribute("baiViet", bv);
+
         return "admin/baiviet-edit";
     }
 

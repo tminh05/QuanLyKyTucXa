@@ -221,10 +221,10 @@
                     <div class="alert-error">⚠️ ${error}</div>
                 </c:if>
 
-                <div class="meta-info">
-                    <span>📅 Ngày đăng: <strong><fmt:formatDate value="${baiViet.ngayDang}" pattern="dd/MM/yyyy"/></strong></span>
-                    <span>👁️ Lượt xem: <strong>${baiViet.luotXem}</strong></span>
-                </div>
+               <div class="meta-info">
+    <span>📅 Ngày đăng: <strong>${baiViet.ngayDang}</strong></span>
+    <span>👁️ Lượt xem: <strong>${baiViet.luotXem}</strong></span>
+</div>
 
                 <form action="${pageContext.request.contextPath}/admin/baiviet/edit" method="post">
                     <input type="hidden" name="idBaiViet" value="${baiViet.idBaiViet}">
@@ -273,7 +273,7 @@
                         </div>
                         <div class="form-group">
                             <label>Ngày đăng</label>
-                            <input type="text" value="<fmt:formatDate value="${baiViet.ngayDang}" pattern="dd/MM/yyyy"/>" readonly>
+                            <input type="text" value="${baiViet.ngayDang}" readonly>
                         </div>
                     </div>
 

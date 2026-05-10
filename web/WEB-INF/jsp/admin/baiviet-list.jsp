@@ -205,7 +205,7 @@
         <div class="sidebar-menu">
             <a href="${pageContext.request.contextPath}/admin/dashboard">📊 Tổng quan</a>
             <a href="${pageContext.request.contextPath}/admin/sinhvien">👨‍🎓 Quản lý Sinh viên</a>
-            <a href="${pageContext.request.contextPath}/admin/phong">🏢 Quản lý Phòng</a>
+            <a href="${pageContext.request.contextPath}/admin/phong-cua-toi">🏢 Quản lý Phòng</a>
             <a href="${pageContext.request.contextPath}/admin/hopdong">📄 Quản lý Hợp đồng</a>
             <a href="${pageContext.request.contextPath}/admin/baotri">🔧 Quản lý Bảo trì</a>
             <a href="${pageContext.request.contextPath}/admin/nhanvien">👥 Quản lý Nhân viên</a>
@@ -242,7 +242,14 @@
                             <div class="post-meta">
                                 📅 ${bv.ngayDang} &nbsp;|&nbsp; 👁️ ${bv.luotXem} lượt xem
                             </div>
-                            <div class="post-summary">${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}</div>
+                            <div class="post-summary">
+                                <c:choose>
+                                    <c:when test="${not empty bv.tomTat}">
+                                        ${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}
+                                    </c:when>
+                                    <c:otherwise>Chưa có tóm tắt</c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                         <div class="post-actions">
                             <a href="${pageContext.request.contextPath}/admin/baiviet/edit/${bv.idBaiViet}" class="btn-edit">Sửa</a>
@@ -273,7 +280,14 @@
                             <div class="post-meta">
                                 📅 ${bv.ngayDang} &nbsp;|&nbsp; 👁️ ${bv.luotXem} lượt xem
                             </div>
-                            <div class="post-summary">${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}</div>
+                            <div class="post-summary">
+                                <c:choose>
+                                    <c:when test="${not empty bv.tomTat}">
+                                        ${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}
+                                    </c:when>
+                                    <c:otherwise>Chưa có tóm tắt</c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                         <div class="post-actions">
                             <a href="${pageContext.request.contextPath}/admin/baiviet/edit/${bv.idBaiViet}" class="btn-edit">Sửa</a>
@@ -291,7 +305,7 @@
 
         <!-- NỘI QUY -->
         <div class="data-card">
-            <div class="card-header">
+            <div class-card-header">
                 <h2>📋 Nội quy & Quy định</h2>
                 <a href="${pageContext.request.contextPath}/admin/baiviet/add?loai=noi-quy" class="btn-add">➕ Thêm nội quy</a>
             </div>
@@ -304,7 +318,14 @@
                             <div class="post-meta">
                                 📅 ${bv.ngayDang} &nbsp;|&nbsp; 👁️ ${bv.luotXem} lượt xem
                             </div>
-                            <div class="post-summary">${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}</div>
+                            <div class="post-summary">
+                                <c:choose>
+                                    <c:when test="${not empty bv.tomTat}">
+                                        ${bv.tomTat.length() > 80 ? bv.tomTat.substring(0,80).concat("...") : bv.tomTat}
+                                    </c:when>
+                                    <c:otherwise>Chưa có tóm tắt</c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                         <div class="post-actions">
                             <a href="${pageContext.request.contextPath}/admin/baiviet/edit/${bv.idBaiViet}" class="btn-edit">Sửa</a>
